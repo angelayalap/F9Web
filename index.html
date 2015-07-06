@@ -101,15 +101,15 @@ function MM_swapImage() { //v3.0
     <td width="969" class="blanco"><div class="filterBlock">
 		<div class="filterMenu">
 			<ul id="filter" class="option-set clearfix" data-option-key="filter">
-			  	<li><a href="#show-all" data-option-value="*" class="selected">Todo</a></li>
-				<li><a href="#features" data-option-value=".tres" class="featured">360°</a></li>
-				<li><a href="#features" data-option-value=".interior" class="in-progress">Interior</a></li>
-				<li><a href="#features" data-option-value=".exterior" class="residential">Exterior</a></li>
-				<!-- Otros Filtros 										  				
-				<li><a href="#features" data-option-value=".commercial" class="commercial">Commercial</a></li>
-				<li><a href="#features" data-option-value=".speculative" class="speculative">Research</a></li>
-				<li><a href="#features" data-option-value=".prueba" class="public">Public</a></li>
-                                                                                                                                                                -->
+		  	<li><a href="#show-all" data-option-value="*" class="selected">Todo</a></li>
+			<li><a href="#features" data-option-value=".tres" class="featured">360°</a></li>
+			<li><a href="#features" data-option-value=".interior" class="in-progress">Interior</a></li>
+			<li><a href="#features" data-option-value=".exterior" class="residential">Exterior</a></li>
+			<!-- Otros Filtros 										  				
+			<li><a href="#features" data-option-value=".commercial" class="commercial">Commercial</a></li>
+			<li><a href="#features" data-option-value=".speculative" class="speculative">Research</a></li>
+			<li><a href="#features" data-option-value=".prueba" class="public">Public</a></li>
+                                                                                                                                                               -->
 			</ul>
 		</div>
 	</div></td>
@@ -131,145 +131,197 @@ function MM_swapImage() { //v3.0
 
 <div id="primary">
 
-				<div class="contentInner" id="projects">
-				  <p>
-				    <script type="text/javascript">
-						$.Isotope.prototype._getCenteredMasonryColumns = function() {
-						    this.width = this.element.width();
-						    
-						    var parentWidth = this.element.parent().width();
-						    
-						                  // i.e. options.masonry && options.masonry.columnWidth
-						    var colW = this.options.masonry && this.options.masonry.columnWidth ||
-						                  // or use the size of the first item
-						                  this.$filteredAtoms.outerWidth(true) ||
-						                  // if there's no items, use size of container
-						                  parentWidth;
-						    
-						    var cols = Math.floor( parentWidth / colW );
-						    cols = Math.max( cols, 5 );
-						
-						    // i.e. this.masonry.cols = ....
-						    this.masonry.cols = cols;
-						    // i.e. this.masonry.columnWidth = ...
-						    this.masonry.columnWidth = colW;
-						  };
-						  
-						  $.Isotope.prototype._masonryReset = function() {
-						    // layout-specific props
-						    this.masonry = {};
-						    // FIXME shouldn't have to call this again
-						    this._getCenteredMasonryColumns();
-						    var i = this.masonry.cols;
-						    this.masonry.colYs = [];
-						    while (i--) {
-						      this.masonry.colYs.push( 5 );
-						    }
-						  };
-						
-						  $.Isotope.prototype._masonryResizeChanged = function() {
-						    var prevColCount = this.masonry.cols;
-						    // get updated colCount
-						    this._getCenteredMasonryColumns();
-						    return ( this.masonry.cols !== prevColCount );
-						  };
-						  
-						  $.Isotope.prototype._masonryGetContainerSize = function() {
-						    var unusedCols = 0,
-						        i = this.masonry.cols;
-						    // count unused columns
-						    while ( --i ) {
-						      if ( this.masonry.colYs[i] !== 0 ) {
-						        break;
-						      }
-						      unusedCols++;
-						    }
-						    
-						    return {
-						          height : Math.max.apply( Math, this.masonry.colYs ),
-						          // fit container to columns that have been used;
-						          width : (this.masonry.cols - unusedCols) * this.masonry.columnWidth
-						        };
-						  };
-					</script>
-				    <script type="text/javascript" src="../wp-content/themes/room11/js/underscore.js"></script>
-			      <script type="text/javascript">
-						$(function(){
-				
-							var $container = $('#container');
-						    
-						      $container.isotope({
-						        masonry: {
-						          columnWidth: 215
-						        },
-						        	
-						        /*filter: '.featured',*/
-						        animationEngine : "best-available",
-						        sortBy: 'original-order',
-						        getSortData: {
-						          number: function( $elem ) {
-						            var number = $elem.hasClass('element') ? 
-						              $elem.find('.number').text() :
-						              $elem.attr('data-number');
-						            return parseInt( number, 10 );
-						          },
-						          alphabetical: function( $elem ) {
-						            var name = $elem.find('.name'),
-						                itemText = name.length ? name : $elem;
-						            return itemText.text();
-						          }
-						        }
-						      });
-						    
-						      
-						      var $optionSets = $('.option-set'),
-						          $optionLinks = $optionSets.find('a');
-						
-						      $optionLinks.click(function(){
-						        var $this = $(this);
-						        // don't proceed if already selected
-						        if ( $this.hasClass('selected') ) {
-						          return false;
-						        }
-						        var $optionSet = $this.parents('.option-set');
-						        $optionSet.find('.selected').removeClass('selected');
-						        $this.addClass('selected');
-						  
-						        // make option object dynamically, i.e. { filter: '.my-filter-class' }
-						        var options = {},
-						            key = $optionSet.attr('data-option-key'),
-						            value = $this.attr('data-option-value');
-						        // parse 'false' as false boolean
-						        value = value === 'false' ? false : value;
-						        options[ key ] = value;
-						        if ( key === 'layoutMode' && typeof changeLayoutMode === 'function' ) {
-						          // changes in layout modes need extra logic
-						          changeLayoutMode( $this, options )
-						        } else {
-						          // otherwise, apply new options
-						          $container.isotope( options );
-						        }
-						        
-						        return false;
-						      });
-						      
-						      $('#container').css({'visibility':'visible'});
-						      //$('#filter > li:first a').addClass('selected');
-						      
-						});
-					</script>
+<div class="contentInner" id="projects">
+  <p>
+    <script type="text/javascript">
+		$.Isotope.prototype._getCenteredMasonryColumns = function() {
+		    this.width = this.element.width();
+		    
+		    var parentWidth = this.element.parent().width();
+		    
+		                  // i.e. options.masonry && options.masonry.columnWidth
+		    var colW = this.options.masonry && this.options.masonry.columnWidth ||
+		                  // or use the size of the first item
+		                  this.$filteredAtoms.outerWidth(true) ||
+		                  // if there's no items, use size of container
+		                  parentWidth;
+		    
+		    var cols = Math.floor( parentWidth / colW );
+		    cols = Math.max( cols, 5 );
+		
+		    // i.e. this.masonry.cols = ....
+		    this.masonry.cols = cols;
+		    // i.e. this.masonry.columnWidth = ...
+		    this.masonry.columnWidth = colW;
+		  };
+		  
+		  $.Isotope.prototype._masonryReset = function() {
+		    // layout-specific props
+		    this.masonry = {};
+		    // FIXME shouldn't have to call this again
+		    this._getCenteredMasonryColumns();
+		    var i = this.masonry.cols;
+		    this.masonry.colYs = [];
+		    while (i--) {
+		      this.masonry.colYs.push( 5 );
+		    }
+		  };
+		
+		  $.Isotope.prototype._masonryResizeChanged = function() {
+		    var prevColCount = this.masonry.cols;
+		    // get updated colCount
+		    this._getCenteredMasonryColumns();
+		    return ( this.masonry.cols !== prevColCount );
+		  };
+		  
+		  $.Isotope.prototype._masonryGetContainerSize = function() {
+		    var unusedCols = 0,
+		        i = this.masonry.cols;
+		    // count unused columns
+		    while ( --i ) {
+		      if ( this.masonry.colYs[i] !== 0 ) {
+		        break;
+		      }
+		      unusedCols++;
+		    }
+		    
+		    return {
+		          height : Math.max.apply( Math, this.masonry.colYs ),
+		          // fit container to columns that have been used;
+		          width : (this.masonry.cols - unusedCols) * this.masonry.columnWidth
+		        };
+		  };
+	</script>
+    <script type="text/javascript" src="../wp-content/themes/room11/js/underscore.js"></script>
+  <script type="text/javascript">
+		$(function(){
+
+			var $container = $('#container');
+		    
+		      $container.isotope({
+		        masonry: {
+		          columnWidth: 215
+		        },
+		        	
+		        /*filter: '.featured',*/
+		        animationEngine : "best-available",
+		        sortBy: 'original-order',
+		        getSortData: {
+		          number: function( $elem ) {
+		            var number = $elem.hasClass('element') ? 
+		              $elem.find('.number').text() :
+		              $elem.attr('data-number');
+		            return parseInt( number, 10 );
+		          },
+		          alphabetical: function( $elem ) {
+		            var name = $elem.find('.name'),
+		                itemText = name.length ? name : $elem;
+		            return itemText.text();
+		          }
+		        }
+		      });
+		    
+		      
+		      var $optionSets = $('.option-set'),
+		          $optionLinks = $optionSets.find('a');
+		
+		      $optionLinks.click(function(){
+		        var $this = $(this);
+		        // don't proceed if already selected
+		        if ( $this.hasClass('selected') ) {
+		          return false;
+		        }
+		        var $optionSet = $this.parents('.option-set');
+		        $optionSet.find('.selected').removeClass('selected');
+		        $this.addClass('selected');
+		  
+		        // make option object dynamically, i.e. { filter: '.my-filter-class' }
+		        var options = {},
+		            key = $optionSet.attr('data-option-key'),
+		            value = $this.attr('data-option-value');
+		        // parse 'false' as false boolean
+		        value = value === 'false' ? false : value;
+		        options[ key ] = value;
+		        if ( key === 'layoutMode' && typeof changeLayoutMode === 'function' ) {
+		          // changes in layout modes need extra logic
+		          changeLayoutMode( $this, options )
+		        } else {
+		          // otherwise, apply new options
+		          $container.isotope( options );
+		        }
+		        
+		        return false;
+		      });
+		      
+		      $('#container').css({'visibility':'visible'});
+		      //$('#filter > li:first a').addClass('selected');
+		      
+		});
+	</script>
                   
 <div id="container">
+
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/00_logo_index.jpg" rel="lightbox[galeria1]"  class=" element tres interior exterior">	
-    <img src="lightbox/img/galeria2013/00__logo_indexs.png" width="200" height="134" class="example-image-link2" id="img_mike" /></a>
-  
+  <img src="lightbox/img/galeria2013/00__logo_indexs.png" width="200" height="134" class="example-image-link2" id="img_mike" /></a>
   <!-- Finish Item Portafolio-->
   
-    <!-- Start Item Portafolio--> 
+<!-- Start Item Portafolio--> 
+  <a href="img/77_original.jpg" rel="lightbox[galeria1]"  class="interior" title ="Comercial" type="inside"><img src="img/77_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio--> 
+
+  <!-- Start Item Portafolio--> 
+  <a href="img/78_original.jpg" rel="lightbox[galeria1]"  class="interior" title ="Comercial" type="inside"><img src="img/78_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio--> 
+  <a href="img/80_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/80_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio--> 
+
+  <!-- Start Item Portafolio--> 
+  <a href="img/79_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/79_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio-->
+
+<!-- Start Item Portafolio--> 
+  <a href="img/84_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/84_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio--> 
+
+  <!-- Start Item Portafolio--> 
+  <a href="img/85_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/85_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio-->
+
+   <!-- Start Item Portafolio--> 
+  <a href="img/86_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/86_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio-->
+
+     <!-- Start Item Portafolio--> 
+  <a href="img/87_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/87_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio-->
+
+ <!-- Start Item Portafolio--> 
+  <a href="img/88_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/88_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio--> 
+
+  <!-- Start Item Portafolio--> 
+  <a href="img/89_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/89_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio-->
+
+   <!-- Start Item Portafolio--> 
+  <a href="img/90_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/90_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio--
+
+  <!-- Start Item Portafolio--> 
   <a href="img/74_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/74_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
   <!-- Finish Item Portafolio--> 
- 
+
+  <!-- Start Item Portafolio--> 
+  <a href="img/75_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/75_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio-->
+
+   <!-- Start Item Portafolio--> 
+  <a href="img/76_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/76_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio-->
+
   <!-- Start Item Portafolio--> 
   <a href="lightbox/img/galeria2013/66_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Nave Industrial" type="inside"><img src="lightbox/img/galeria2013/66_thumb.jpg"   alt="Render Monterrey -  Render Departamentos" width="200" height="134" class="example-image-link" /></a>
   <!-- Finish Item Portafolio--> 
@@ -281,10 +333,6 @@ function MM_swapImage() { //v3.0
   <!-- Start Item Portafolio--> 
   <a href="lightbox/img/galeria2013/67_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Nave Industrial" type="inside"><img src="lightbox/img/galeria2013/67_thumb.jpg"   alt="Render Monterrey -  Render Departamentos" width="200" height="134" class="example-image-link" /></a>
   <!-- Finish Item Portafolio--> 
-  
- 
-  
-  
   
  <!-- Start Item Portafolio--> 
   <a href="lightbox/img/galeria2013/64_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Edificio Departamental" type="inside"><img src="lightbox/img/galeria2013/64_thumb.jpg"   alt="Render Monterrey -  Render Departamentos" width="200" height="134" class="example-image-link" /></a>
@@ -306,133 +354,166 @@ function MM_swapImage() { //v3.0
   <a href="lightbox/img/galeria2013/59_original.jpg" rel="lightbox[galeria1]"  class="interior" title ="Render Interior Salón Eventos Femsa" type="inside"><img src="lightbox/img/galeria2013/59_thumb.jpg"   alt="Render Monterrey -  Render interior salon de eventos Femsa" width="200" height="134" class="example-image-link" /></a>
   <!-- Finish Item Portafolio-->
   <!-- Start Item Portafolio-->
-    
+   
   <a href="lightbox/img/galeria2013/62_original.jpg" rel="lightbox[galeria1]"  class="interior" title ="Render Interior Salón Eventos Femsa" type="inside"><img src="lightbox/img/galeria2013/62_thumb.jpg"   alt="Render Monterrey -  Render interior salon de eventos Femsa" width="200" height="134" class="example-image-link" /></a>
   <!-- Finish Item Portafolio-->
   
-  <!-- Start Item Portafolio-->
-    
+  <!-- Start Item Portafolio--> 
   <a href="lightbox/img/galeria2013/60_original.jpg" rel="lightbox[galeria1]"  class="interior" title ="Render Interior Salón Eventos Femsa" type="inside"><img src="lightbox/img/galeria2013/60_thumb.jpg"   alt="Render Monterrey -  Render interior salon de eventos Femsa" width="200" height="134" class="example-image-link" /></a>
   <!-- Finish Item Portafolio--> 
+  
   <!-- Start Item Portafolio-->
-    
   <a href="lightbox/img/galeria2013/58_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Render Exterior Soriana" type="inside"><img src="lightbox/img/galeria2013/58_thumb.jpg"   alt="Render Monterrey -  Render exterior tienda Soriana" width="200" height="134" class="example-image-link" /></a>
   <!-- Finish Item Portafolio-->
-  <!-- Start Item Portafolio-->
-    
+  
+  <!-- Start Item Portafolio--> 
   <a href="lightbox/img/galeria2013/49_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Render Exterior Salón de Proyecciones" type="inside"><img src="lightbox/img/galeria2013/49_thumb.jpg"   alt="Render Monterrey -  Render exterior de Sala de Proyección ARDIMU" width="200" height="134" class="example-image-link" /></a>
   <!-- Finish Item Portafolio-->
+  
   <!-- Start Item Portafolio-->
-  
-  
   <a href="lightbox/img/galeria2013/50_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Render Exterior Salón de Proyecciones" type="inside"><img src="lightbox/img/galeria2013/50_thumb.jpg"   alt="Render Monterrey -  Render exterior de Sala de Proyección ARDIMU" width="200" height="134" class="example-image-link" /></a>
   <!-- Finish Item Portafolio-->
+  
   <!-- Start Item Portafolio-->
-  
-  
   <a href="lightbox/img/galeria2013/41_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Render Exterior Fachada - Diseño + Render" type="inside"><img src="lightbox/img/galeria2013/41_thumb.jpg"   alt="Render Monterrey -  Render exterior de casa habitación, propuesta de diseño y representación 3d" width="200" height="134" class="example-image-link" /></a>
   <!-- Finish Item Portafolio-->
-  <!-- Start Item Portafolio-->
   
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/43_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Terraza - Diseño + Render" ><img src="lightbox/img/galeria2013/43_thumb.jpg" alt="Render Exterior Terraza + Propuesta de Diseño y Render " width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio--> 
+  <a href="img/81_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/81_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio--> 
+
+  <!-- Start Item Portafolio--> 
+  <a href="img/82_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/82_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio-->
+
+   <!-- Start Item Portafolio--> 
+  <a href="img/83_original.jpg" rel="lightbox[galeria1]"  class="exterior" title ="Comercial" type="inside"><img src="img/83_thumb.jpg"   alt="Render Monterrey -  Render Comercial" width="200" height="134" class="example-image-link" /></a>
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/36_original.jpg" rel="lightbox[galeria1]"  class="interior" title="Render Interior Detalle SalaComedor"><img src="lightbox/img/galeria2013/36_thumb.jpg" alt="Render Interior Cocina + Proyecto de ADAMM + México DF" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/38_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Complejo Habitacional"><img src="lightbox/img/galeria2013/38_thumb.jpg" alt="Render Exterior Complejo Habitacional + Proyecto de ADAMM + México DF" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/35_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Fachada Casa-Habitación"><img src="lightbox/img/galeria2013/35_thumb.jpg" alt="Render Exterior Fachada Casa-Habitación + Prpuesta de ADAMM + México DF " width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/34_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Patio"><img src="lightbox/img/galeria2013/34_thumb.jpg" alt="Render Exterior Patio + Propuesta arquitectónica por ADAMM + México DF" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/42_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Residencia"><img src="lightbox/img/galeria2013/42_thumb.jpg" alt=" Render Exterior Residencia Los Patos + Propuesta de Diseño por Arq. Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/46_original.jpg" rel="lightbox[galeria1]"  class="interior" title=" Render Interior México un Museo"><img src="lightbox/img/galeria2013/46_thumb.jpg" alt="Render Interior México un Museo + Proyecto de ARDIMU + México DF" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/45_original.jpg" rel="lightbox[galeria1]"  class="exterior" title=" Render Exterior México un Museo"><img src="lightbox/img/galeria2013/45_thumb.jpg" alt="Render Exterior México un Museo Proyecto de ARDIMU + México DF" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+
   <!-- Start Item Portafolio 360-->
   <a href="exterior_360.html" target="_blank" class="featured tres "><img src="lightbox/img/galeria2013/360_exposición.jpg" alt="Vista 360 Grados + Proyecto por ARDIMU" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio 360-->
+
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/44_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior II México un Museo"><img src="lightbox/img/galeria2013/44_thumb.jpg" alt="Render Exterior II México un Museo Proyecto de ARDIMU + México DF " width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/40_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Vista Aerea Terraza"><img src="lightbox/img/galeria2013/40_thumb.jpg" alt="Render Vista Aere de Terraza + Propuesta de Diseño Arq. Miguel Armendariz " width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/33_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Fachada Residencial"><img src="lightbox/img/galeria2013/33_thumb.jpg" alt="Render Exterior Fachada Residencial + Propuesta de Diseño arquitectónico Arq. Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/27_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Dia Fachada Residencial"><img src="lightbox/img/galeria2013/27_thumb.jpg" alt="Render Exterior Dia Fachada Residencial + Propuesta de Diseño Arq. Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/32_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Vista Nocturna"><img src="lightbox/img/galeria2013/32_thumb.jpg" alt="Render Vista Nocturna + Diseño arquitectónico Arq. Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/31_original.jpg" rel="lightbox[galeria1]"  class="interior" title="Render Interior Cocina + Diseño"><img src="lightbox/img/galeria2013/31_thumb.jpg" alt="Render Interior Cocina + Diseño Arq. Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/30_original.jpg" rel="lightbox[galeria1]"  class="interior" title="Render Interior Sala-Comedor"><img src="lightbox/img/galeria2013/30_thumb.jpg" alt="Render Interior Sala-Comedor + Diseño  arquitectónico Arq. Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/29_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Patio"><img src="lightbox/img/galeria2013/29_thumb.jpg" alt="Render Exterior Patio + Diseño arquitecónico Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/28_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Patio II"><img src="lightbox/img/galeria2013/28_thumb.jpg" alt="Render Exterior Patio II + Diseño por Arq. Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/26_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Vista Conceptual"><img src="lightbox/img/galeria2013/26_thumb.jpg" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/25_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Vista Peatonal"><img src="lightbox/img/galeria2013/25_thumb.jpg" alt="Render Exterior Vista Peatonal + Proyecto arquitecnonico por Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio--><!-- Start Item Portafolio-->
+  <!-- Finish Item Portafolio-->
+
+  <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/24_original.jpg" rel="lightbox[galeria1]"  class="interior" title="Render Interior Cochera"><img src="lightbox/img/galeria2013/24_thumb.jpg" alt="Render interior de casa habitación proyecto a cuenta de Arq. Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+  
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/21_original.jpg" rel="lightbox[galeria1]"  class="interior" title=" Render Interior + Diseño Arq. Miguel Armendariz"><img src="lightbox/img/galeria2013/21_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+  
   <!-- Start Item Portafolio 360-->
   <a href="comedor_360.html" target="_blank" class="featured tres "><img src="lightbox/img/galeria2013/360_Sala_Comedors.jpg" alt="Vista 360 Grados proyecto de Arq. Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio 360-->
+  
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/23_original.jpg" rel="lightbox[galeria1]"  class="interior" title="Render Interior Vista Detalle Pasillo"><img src="lightbox/img/galeria2013/23_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+  
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/22_original.jpg" rel="lightbox[galeria1]"  class="interior" title="Render Interior Detalle de Cocina"><img src="lightbox/img/galeria2013/22_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+  
   <!-- Start Item Portafolio 360-->
   <a href="rec_pal.html" target="_blank" class="featured tres "><img src="lightbox/img/galeria2013/360_Rec_Pals.jpg" alt="Vista 360 Grados Recamara principal casa habitación + Monterrey México" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio 360-->
+  
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/20_original.jpg" rel="lightbox[galeria1]"  class="interior" title="Render Interior Recamara Principal"><img src="lightbox/img/galeria2013/20_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+  
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/19_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Terraza Vista Nocturna"><img src="lightbox/img/galeria2013/19_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+  
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/18_original.jpg" rel="lightbox[galeria1]"  class="exterior" title=" Render Exterior FARQ UANL"><img src="lightbox/img/galeria2013/18_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+  
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/17_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Canchas FARQ UANL"><img src="lightbox/img/galeria2013/17_thumb.jpg" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
+  
   <!-- Start Item Portafolio 360-->
   <a href="cancha_360.html" target="_blank" class="featured tres "><img src="lightbox/img/galeria2013/360_canchas.jpg" alt="Vista 360 Grados + Facultad de Arquitectura UANL + Monterrey México" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio 360-->
-  <!-- Start Item Portafolio-->
-  <a href="lightbox/img/galeria2013/01_original.jpg" rel="lightbox[galeria1]"  class="exterior" title="Render Exterior Casa Los Patos"><img src="lightbox/img/galeria2013/01_thumbs.jpg" alt="Render Exterior Casa Los Patos + Propuesta de diseño por Arq. Miguel Armendariz" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio-->
-  <!-- Start Item Portafolio-->
-  <a href="lightbox/img/galeria2013/02_original.jpg" rel="lightbox[galeria1]"  class="exterior"><img src="lightbox/img/galeria2013/02_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio-->
-  <!-- Start Item Portafolio-->
-  <a href="lightbox/img/galeria2013/04_original.jpg" rel="lightbox[galeria1]"  class="interior"><img src="lightbox/img/galeria2013/04_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio-->
-  <!-- Start Item Portafolio-->
-  <a href="lightbox/img/galeria2013/05_original.jpg" rel="lightbox[galeria1]"  class="interior"><img src="lightbox/img/galeria2013/05_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio-->
-  <!-- Start Item Portafolio-->
-  <a href="lightbox/img/galeria2013/06_original.jpg" rel="lightbox[galeria1]"  class="exterior"><img src="lightbox/img/galeria2013/06_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio-->
-  <!-- Start Item Portafolio-->
-  <a href="lightbox/img/galeria2013/07_original.jpg" rel="lightbox[galeria1]"  class="exterior"><img src="lightbox/img/galeria2013/07_thumbs.jpg" width="200" height="134" class="example-image-link"/></a>
-  <!-- Finish Item Portafolio-->
-  
+    
   <!-- Start Item Portafolio-->
   <a href="lightbox/img/galeria2013/10_original.jpg" rel="lightbox[galeria1]"  class="interior" title="Render de Mobiliario + Diseño"><img src="lightbox/img/galeria2013/10_thumbs.jpg" alt="Render de Mobiliario Propuesta de diseño por F9 Studio + Monterrey México" width="200" height="134" class="example-image-link"/></a>
   <!-- Finish Item Portafolio-->
@@ -445,9 +526,8 @@ function MM_swapImage() { //v3.0
   </tr>
 </table>
 
-
-
-<!-- #BeginLibraryItem "/Library/F_espanol.lbi" --><table width="1100" border="0" align="center" cellpadding="0" cellspacing="0">
+<!-- #BeginLibraryItem "/Library/F_espanol.lbi" -->
+<table width="1100" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td colspan="5" align="center"><hr /></td>
   </tr>
